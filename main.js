@@ -82,13 +82,17 @@ const ProductPicker = {
 		const query = ref('');
 		const options = ref(props.preview.options);
 		let timer = null;
+		// a slow reply for an older query must not overwrite a newer one
+		let latest = 0;
 
 		watch(query, (value) => {
 			clearTimeout(timer);
 			timer = setTimeout(async () => {
-				options.value = await call(`${API}search_preview_products`, {
+				const request = ++latest;
+				const results = await call(`${API}search_preview_products`, {
 					query: value,
 				}).catch(() => []);
+				if (request === latest) options.value = results;
 			}, SEARCH_DELAY_MS);
 		});
 
@@ -219,10 +223,11 @@ const ThemePanel = {
 		function view_on_store() {
 			let path = props.bar.storefront_path;
 			if (props.bar.page_type === 'Product Detail') {
-				path +=
+				path += encodeURIComponent(
 					pageStore.routeVariables.route ||
-					props.bar.preview.options[0]?.value ||
-					'';
+						props.bar.preview.options[0]?.value ||
+						'',
+				);
 			} else if (
 				props.bar.page_type === 'Product Listing' &&
 				pageStore.routeVariables.category
