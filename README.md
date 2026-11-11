@@ -34,7 +34,7 @@ The panel calls `commera.api.admin.builder_theme` on the site. That API is part 
 3. Publish a GitHub release whose tag is the version, and attach the package:
 
    ```sh
-   gh release create v0.1.0 dist/bwhtech-commera-builder-plugin-0.1.0.builderplugin --title v0.1.0
+   gh release create v<version> dist/bwhtech-commera-builder-plugin-<version>.builderplugin --title v<version>
    ```
 
 Builder Hub checks the repository for new releases. A published release and its asset are immutable; to change one, release a new version.
