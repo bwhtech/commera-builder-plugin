@@ -6,6 +6,28 @@ import { Badge, Button, FormControl, Popover, call, toast } from 'frappe-ui';
 import { computed, h, ref, watch } from 'vue';
 
 const API = 'commera.api.admin.builder_theme.';
+
+// Builder ships CSS only for the lucide icons it uses itself, and lucide-store is not one of them.
+const StoreIcon = () =>
+	h(
+		'svg',
+		{
+			viewBox: '0 0 24 24',
+			width: 16,
+			height: 16,
+			fill: 'none',
+			stroke: 'currentColor',
+			'stroke-width': 2,
+			'stroke-linecap': 'round',
+			'stroke-linejoin': 'round',
+			'aria-hidden': 'true',
+		},
+		[
+			'M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5',
+			'M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244',
+			'M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05',
+		].map((d) => h('path', { d })),
+	);
 const SEARCH_DELAY_MS = 250;
 
 function page_status(page) {
@@ -310,7 +332,7 @@ const ThemeBar = {
 						h(Button, {
 							variant: 'subtle',
 							size: 'sm',
-							iconLeft: 'lucide-store',
+							iconLeft: StoreIcon,
 							iconRight: 'lucide-chevron-down',
 							label: `${bar.value.theme} · ${current?.label ?? ''}`,
 						}),
